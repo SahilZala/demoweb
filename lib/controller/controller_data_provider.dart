@@ -33,6 +33,57 @@ class DataProvider extends ChangeNotifier{
     mission_data.addAll(data);
   }
 
+  searchData(String key){
+    if(key.length > 0)
+    {
+      if(launch_pad.isNotEmpty) {
+        launch_pad.clear();
+
+        FetchLaunchPad().fetchLaunchPadData().then((value){
+
+          List daat = value.data!['launchpads'];
+
+          print(daat);
+
+          List<LaunchPad> d = daat.where((element) => element['name'].toString().substring(0,key.length) == key).map((element) {
+            if(element['name'].toString().substring(0,key.length) == key)
+            {}
+            return LaunchPad(element['name'].toString().substring(0,5),double.parse(element['successful_launches'].toString()), element['status']);
+          }).toList();
+
+          launch_pad.clear();
+          launch_pad.addAll(d);
+
+          notifyListeners();
+
+        });
+
+      }
+
+    }
+    else {
+
+      launch_pad.clear();
+      print("empty");
+      FetchLaunchPad().fetchLaunchPadData().then((value){
+
+        List daat = value.data!['launchpads'];
+
+        print(daat);
+
+        List<LaunchPad> d = daat.map((element) => LaunchPad(element['name'].toString().substring(0,5),double.parse(element['successful_launches'].toString()), element['status'])).toList();
+
+        launch_pad.addAll(d);
+
+        notifyListeners();
+
+      });
+
+
+    }
+
+  }
+
   double getMaxLaupadCount()
   {
     if(launch_pad == null){

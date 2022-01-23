@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
 
                     IconButton(
                         onPressed: (){
-                          context.read<MainViewInd  exChanger>().update(1);
+                          context.read<MainViewIndexChanger>().update(1);
                         },
                         icon: const Icon(
                           Icons.graphic_eq,
@@ -200,15 +200,7 @@ class _HomeState extends State<Home> {
 
   Widget _getGraphBord(BuildContext context)
   {
-    FetchLaunchPad().fetchLaunchPadData().then((value){
 
-      List daat = value.data!['launchpads'];
-
-      List d = daat.map((element) => LaunchPad(element['name'].toString().substring(0,5),double.parse(element['successful_launches'].toString()), element['status'])).toList();
-
-      context.read<DataProvider>().updateLaunchPadDataList(d as List<LaunchPad>);
-
-    });
     return Container(
       alignment: Alignment.topCenter,
       child: SingleChildScrollView(
@@ -433,6 +425,9 @@ class _HomeState extends State<Home> {
                       }
 
                       return null;
+                    },
+                    onChanged: (key){
+                      context.read<DataProvider>().searchData(key);
                     },
 
                     maxLength: 5,
