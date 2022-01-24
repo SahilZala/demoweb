@@ -45,7 +45,7 @@ class DataProvider extends ChangeNotifier{
 
           print(daat);
 
-          List<LaunchPad> d = daat.where((element) => element['name'].toString().substring(0,key.length) == key).map((element) {
+          List<LaunchPad> d = daat.where((element) => element['name'].toString().substring(0,key.length).toLowerCase() == key.toLowerCase()).map((element) {
             if(element['name'].toString().substring(0,key.length) == key)
             {}
             return LaunchPad(element['name'].toString().substring(0,5),double.parse(element['successful_launches'].toString()), element['status']);

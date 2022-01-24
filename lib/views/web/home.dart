@@ -20,9 +20,10 @@ class _HomeState extends State<Home> {
 
     FetchLaunchPad().fetchLaunchPadData().then((value){
 
+      print(value.data!['launchpads']);
       List daat = value.data!['launchpads'];
 
-      List d = daat.map((element) => LaunchPad(element['name'].toString().substring(0,5),element['successful_launches'], element['status'])).toList();
+      List d = daat.map((element) => LaunchPad(element['name'].toString().substring(0,5),double.parse(element['successful_launches'].toString()), element['status'])).toList();
 
       context.read<DataProvider>().updateLaunchPadDataList(d as List<LaunchPad>);
 
@@ -333,12 +334,12 @@ class _HomeState extends State<Home> {
   Widget _getDataInTabularForm(BuildContext context)
   {
 
+    print(context.watch<DataProvider>().launch_pad);
+
     List<TableRow> table_row = [];
 
     table_row.add(TableRow(children: [
       Column(children:const [
-
-
         Padding(
         padding: EdgeInsets.all(8.0),
         child: Text("launch name",
